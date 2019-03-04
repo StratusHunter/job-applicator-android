@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.bulbstudios.jobapplicator.classes.APIResult
 import com.bulbstudios.jobapplicator.classes.JobApplication
 import com.bulbstudios.jobapplicator.enums.Team
+import com.bulbstudios.jobapplicator.interfaces.JobApplicationService
 import io.reactivex.Single
 
 /**
@@ -13,14 +14,14 @@ import io.reactivex.Single
  */
 class MainViewModel : ViewModel() {
 
-    //private val service
+    private val service = JobApplicationService.create()
 
     private fun createTeamList(team: String): List<Team?> {
 
         return team.split(",")
-                .filter { it.isEmpty() }
-                .map { it.replace(" ", "") }
-                .map { Team.with(it) }
+            .filter { it.isEmpty() }
+            .map { it.replace(" ", "") }
+            .map { Team.with(it) }
     }
 
     private fun createURLList(url: String): List<String?> {
@@ -51,6 +52,8 @@ class MainViewModel : ViewModel() {
 
     fun performApplyRequest(application: JobApplication): Single<APIResult<JobApplication>> {
 
-        return Single.just(APIResult(application))
+        return service.apply(application)
+            .map { APIResult(it) }
+            .onErrorReturn { APIResult(null, it) }
     }
 }
