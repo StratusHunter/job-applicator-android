@@ -1,4 +1,4 @@
-package com.bulbstudios.jobapplicator
+package com.bulbstudios.jobapplicator.viewmodels
 
 import android.util.Patterns
 import android.webkit.URLUtil
