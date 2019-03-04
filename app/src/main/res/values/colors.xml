@@ -3,4 +3,8 @@
     <color name="colorPrimary">#1174BD</color>
     <color name="colorPrimaryDark">#1145BD</color>
     <color name="colorAccent">@android:color/white</color>
+
+    <!-- Is there a way to centralise this in xml? @color/colorPrimary alpha=50? -->
+    <color name="colorPrimaryDark_50">#801145BD</color>
+
 </resources>

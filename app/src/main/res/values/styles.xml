@@ -1,23 +1,55 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme"
+           parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:windowBackground">?attr/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textViewStyle">@style/HeadingText</item>
     </style>
 
-    <style name="HeadingText" parent="android:Widget.TextView">
-
+    <style name="ScrollStyle"
+           parent="android:Widget.ScrollView">
+        <item name="android:scrollbarThumbVertical">@android:color/white</item>
+        <item name="android:scrollbars">vertical</item>
     </style>
 
-    <style name="SingleLineInputText" parent="android:Widget.EditText">
+    <style name="MultiLineInputTextContainer"
+           parent="@style/ScrollStyle">
+        <item name="android:layout_height">@dimen/multi_line_text_height</item>
+        <item name="android:background">@color/colorPrimaryDark_50</item>
+    </style>
+
+    <style name="HeadingText"
+           parent="android:Widget.TextView">
+        <item name="fontFamily">@font/rockwell</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="InputText"
+           parent="android:Widget.EditText">
+        <item name="fontFamily">@font/rockwell</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="SingleLineInputText"
+           parent="@style/InputText">
         <item name="android:maxLines">1</item>
         <item name="android:layout_height">45dp</item>
+        <item name="android:background">@color/colorPrimaryDark_50</item>
     </style>
 
-    <style name="MultiLineInputText" parent="android:Widget.EditText">
-        <item name="android:layout_height">150dp</item>
+    <style name="MultiLineInputText"
+           parent="@style/InputText">
+        <item name="android:gravity">top|start</item>
+        <item name="android:minHeight">@dimen/multi_line_text_height</item>
+        <item name="android:background">@null</item>
     </style>
 </resources>
