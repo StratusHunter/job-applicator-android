@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Job Applicator</string>
+    <string name="application_received">Application successfully received</string>
+    <string name="application_error">Application request failed</string>
+    <string name="full_name">Full Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="teams">Teams (Comma separated)</string>
+    <string name="about">About</string>
+    <string name="urls">URLs (one per line)</string>
+    <string name="submit">Submit</string>
 </resources>
