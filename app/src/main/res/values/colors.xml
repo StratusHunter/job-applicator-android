@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1174BD</color>
+    <color name="colorPrimaryDark">#1145BD</color>
+    <color name="colorAccent">@android:color/white</color>
+
+    <!-- Is there a better way to centralise this? I would rather use colorPrimaryDark as a base and apply alpha -->
+    <color name="colorPrimaryDark_50">#801145BD</color>
+
+</resources>
