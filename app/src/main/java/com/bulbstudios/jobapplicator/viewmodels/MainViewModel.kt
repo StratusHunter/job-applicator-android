@@ -8,6 +8,8 @@ import com.bulbstudios.jobapplicator.classes.JobApplication
 import com.bulbstudios.jobapplicator.enums.Team
 import com.bulbstudios.jobapplicator.interfaces.JobApplicationService
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by Terence Baker on 04/03/2019.
@@ -53,6 +55,8 @@ class MainViewModel : ViewModel() {
     fun performApplyRequest(application: JobApplication): Single<APIResult<JobApplication>> {
 
         return service.apply(application)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .map { APIResult(it) }
             .onErrorReturn { APIResult(null, it) }
     }
