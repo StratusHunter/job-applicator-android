@@ -13,14 +13,14 @@
 
     <style name="ScrollStyle"
            parent="android:Widget.ScrollView">
-        <item name="android:scrollbarThumbVertical">@android:color/white</item>
+        <item name="android:scrollbarThumbVertical">?attr/colorAccent</item>
         <item name="android:scrollbars">vertical</item>
     </style>
 
     <style name="MultiLineInputTextContainer"
            parent="@style/ScrollStyle">
         <item name="android:layout_height">@dimen/multi_line_text_height</item>
-        <item name="android:background">@color/colorPrimaryDark_50</item>
+        <item name="android:colorBackground">@color/selector_input_background</item>
     </style>
 
     <style name="HeadingText"
@@ -28,14 +28,14 @@
         <item name="fontFamily">@font/rockwell</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="InputText"
            parent="android:Widget.EditText">
         <item name="fontFamily">@font/rockwell</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:padding">8dp</item>
     </style>
 
@@ -43,7 +43,7 @@
            parent="@style/InputText">
         <item name="android:maxLines">1</item>
         <item name="android:layout_height">45dp</item>
-        <item name="android:background">@color/colorPrimaryDark_50</item>
+        <item name="android:colorBackground">@color/selector_input_background</item>
     </style>
 
     <style name="MultiLineInputText"
@@ -51,5 +51,14 @@
         <item name="android:gravity">top|start</item>
         <item name="android:minHeight">@dimen/multi_line_text_height</item>
         <item name="android:background">@null</item>
+    </style>
+
+    <style name="PrimaryButton"
+           parent="android:Widget.Button">
+        <item name="fontFamily">@font/rockwell</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/selector_button_text</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:background">@drawable/button_background</item>
     </style>
 </resources>
