@@ -20,7 +20,7 @@
     <style name="MultiLineInputTextContainer"
            parent="@style/ScrollStyle">
         <item name="android:layout_height">@dimen/multi_line_text_height</item>
-        <item name="android:colorBackground">@color/selector_input_background</item>
+        <item name="android:background">@color/colorPrimaryDark_50</item>
     </style>
 
     <style name="HeadingText"
@@ -37,14 +37,13 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:padding">8dp</item>
-        <item name="android:backgroundTint">?attr/colorAccent</item>
     </style>
 
     <style name="SingleLineInputText"
            parent="@style/InputText">
         <item name="android:maxLines">1</item>
         <item name="android:layout_height">45dp</item>
-        <item name="android:colorBackground">@color/selector_input_background</item>
+        <item name="android:background">@color/colorPrimaryDark_50</item>
     </style>
 
     <style name="MultiLineInputText"
