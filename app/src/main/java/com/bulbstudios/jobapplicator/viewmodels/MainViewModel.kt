@@ -19,7 +19,7 @@ class MainViewModel : ViewModel() {
     private fun createTeamList(team: String): List<Team?> {
 
         return team.split(",")
-            .filter { it.isEmpty() }
+            .filter { it.isNotEmpty() }
             .map { it.replace(" ", "") }
             .map { Team.with(it) }
     }

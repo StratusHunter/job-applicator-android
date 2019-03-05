@@ -37,6 +37,7 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">?attr/colorAccent</item>
         <item name="android:padding">8dp</item>
+        <item name="android:backgroundTint">?attr/colorAccent</item>
     </style>
 
     <style name="SingleLineInputText"

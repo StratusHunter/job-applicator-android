@@ -93,8 +93,8 @@
 
         <Button
             style="@style/PrimaryButton"
+            android:id="@+id/submitButton"
             android:layout_width="match_parent"
-            android:enabled="false"
             android:text="@string/submit"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
