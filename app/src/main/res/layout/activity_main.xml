@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ScrollStyle"
     tools:context=".activities.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,7 +10,91 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/full_name"/>
+
+        <EditText
+            style="@style/SingleLineInputText"
+            android:id="@+id/nameText"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/email_address"/>
+
+        <EditText
+            style="@style/SingleLineInputText"
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:inputType="textEmailAddress"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/teams"/>
+
+        <EditText
+            style="@style/SingleLineInputText"
+            android:id="@+id/teamText"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:inputType="text"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/about"/>
+
+        <androidx.core.widget.NestedScrollView
+            style="@style/MultiLineInputTextContainer"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp">
+
+            <EditText
+                style="@style/MultiLineInputText"
+                android:id="@+id/aboutText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text|textMultiLine"/>
+        </androidx.core.widget.NestedScrollView>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/urls"/>
+
+        <androidx.core.widget.NestedScrollView
+            style="@style/MultiLineInputTextContainer"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp">
+
+            <EditText
+                style="@style/MultiLineInputText"
+                android:id="@+id/urlText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textUri|textMultiLine"/>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            style="@style/PrimaryButton"
+            android:id="@+id/submitButton"
+            android:layout_width="match_parent"
+            android:text="@string/submit"/>
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
