@@ -14,16 +14,24 @@ import com.jakewharton.rxbinding2.view.enabled
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.trello.rxlifecycle2.kotlin.bindToLifecycle
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.withLatestFrom
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : RxAppCompatActivity() {
 
-    private data class InputData(val name: String, val email: String, val team: String, val about: String, val url: String)
+    private data class InputData(
+            val name: String,
+            val email: String,
+            val team: String,
+            val about: String,
+            val url: String
+    )
 
     private lateinit var viewModel: MainViewModel
 
@@ -39,41 +47,37 @@ class MainActivity : RxAppCompatActivity() {
 
         super.onResume()
 
-        setupValidationObserver()
-        setupButtonObserver()
-    }
-
-    @SuppressLint("CheckResult")
-    private fun setupValidationObserver() {
-
-        Observables.combineLatest(nameText.textChanges(), emailText.textChanges(), teamText.textChanges(),
-                aboutText.textChanges(), urlText.textChanges()) { name, email, team, about, url ->
+        val inputDataObservable = Observables.combineLatest(nameText.textChanges(), emailText.textChanges(),
+                teamText.textChanges(), aboutText.textChanges(), urlText.textChanges()) { name, email, team, about, url ->
 
             return@combineLatest InputData(name.toString(), email.toString(), team.toString(), about.toString(), url.toString())
         }
-                .debounce(300, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                .doOnNext { Timber.d("$it") }
-                .map {
+                .share()
+                .replay()
+                .autoConnect()
 
-                    return@map viewModel.validateApplication(it.name, it.email, it.team, it.about, it.url)
-                }
-                .doOnNext { Timber.d("$it") }
+        setupValidationObserver(inputDataObservable)
+        setupButtonObserver(inputDataObservable)
+    }
+
+    @SuppressLint("CheckResult")
+    private fun setupValidationObserver(inputDataObservable: Observable<InputData>) {
+
+        inputDataObservable
+                .debounce(300, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+                .map { viewModel.validateApplication(it.name, it.email, it.team, it.about, it.url) }
                 .bindToLifecycle(this)
                 .subscribe(submitButton.enabled())
     }
 
-    private fun setupButtonObserver() {
+    private fun setupButtonObserver(inputDataObservable: Observable<InputData>) {
 
         submitButton.clicks()
                 .debounce(300, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+                .withLatestFrom(inputDataObservable) { _, input -> input }
                 .switchMapSingle {
 
-                    val application = viewModel.createApplication(nameText.text.toString(),
-                            emailText.text.toString(),
-                            teamText.text.toString(),
-                            aboutText.text.toString(),
-                            urlText.text.toString())
-
+                    val application = viewModel.createApplication(it.name, it.email, it.team, it.about, it.url)
                     return@switchMapSingle viewModel.performApplyRequest(application)
                 }
                 .bindToLifecycle(this)
