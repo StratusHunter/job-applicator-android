@@ -1,7 +1,7 @@
 package com.bulbstudios.jobapplicator.viewmodels
 
-import android.util.Patterns
 import android.webkit.URLUtil
+import androidx.core.util.PatternsCompat
 import androidx.lifecycle.ViewModel
 import com.bulbstudios.jobapplicator.classes.APIResult
 import com.bulbstudios.jobapplicator.classes.JobApplication
@@ -14,26 +14,25 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by Terence Baker on 04/03/2019.
  */
-class MainViewModel : ViewModel() {
-
-    private val service = JobApplicationService.create()
+class MainViewModel(private val service: JobApplicationService = JobApplicationService.create(),
+                    private val urlValidator: (String) -> Boolean = URLUtil::isValidUrl) : ViewModel() {
 
     private fun createTeamList(team: String): List<Team?> {
 
         return team.split(",")
-            .filter { it.isNotEmpty() }
-            .map { it.replace(" ", "") }
-            .map { Team.with(it) }
+                .filter { it.isNotEmpty() }
+                .map { it.replace(" ", "") }
+                .map { Team.with(it) }
     }
 
     private fun createURLList(url: String): List<String?> {
 
-        return url.split("\n").map { if (URLUtil.isValidUrl(it)) it else null }
+        return url.split("\n").map { if (urlValidator(it)) it else null }
     }
 
     fun validateApplication(name: String, email: String, teams: String, about: String, urls: String): Boolean {
 
-        val emailValid = email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val emailValid = email.isNotEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()
 
         val teamList = createTeamList(teams)
         val teamsValid = teamList.isNotEmpty() && !teamList.contains(null)
@@ -55,9 +54,9 @@ class MainViewModel : ViewModel() {
     fun performApplyRequest(application: JobApplication): Single<APIResult<JobApplication>> {
 
         return service.apply(application)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map { APIResult(it) }
-            .onErrorReturn { APIResult(null, it) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { APIResult(it) }
+                .onErrorReturn { APIResult(null, it) }
     }
 }
