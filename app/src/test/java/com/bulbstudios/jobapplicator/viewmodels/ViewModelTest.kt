@@ -1,8 +1,7 @@
 package com.bulbstudios.jobapplicator.viewmodels
 
 import com.bulbstudios.jobapplicator.enums.Team
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 
 /**
@@ -37,5 +36,24 @@ class ViewModelTest {
         assertFalse(urlSuccessViewModel.validateApplication(aName, "Not an email", team, about, url))
         assertFalse(urlSuccessViewModel.validateApplication(aName, email, "Not a team", about, url))
         assertFalse(urlFailViewModel.validateApplication(aName, email, team, about, "Not a url"))
+    }
+
+    @Test
+    fun testJobApplication() {
+
+        val urlSuccessViewModel = MainViewModel(urlValidator = { true })
+        val application = urlSuccessViewModel.createApplication(aName, email,
+                "$team, ${Team.ios.rawValue}", about, "$url\n$url")
+
+        //Property Mapping
+        assertEquals(application.name, aName)
+        assertEquals(application.email, email)
+        assertEquals(application.about, about)
+        assertEquals(application.teams.first(), team)
+        assertEquals(application.urls.first(), url)
+
+        //Array counts
+        assertEquals(application.teams.count(), 2)
+        assertEquals(application.urls.count(), 2)
     }
 }
