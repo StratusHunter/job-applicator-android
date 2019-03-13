@@ -45,28 +45,46 @@ class ViewModelTest {
     }
 
     @Test
-    fun testValidateApplication() {
+    fun test_validateApplication_withValidData_assertTrue() {
 
-        //Valid
-        assertTrue(urlSuccessViewModel.validateApplication(name, email, team, about, url))
+        val validData = urlSuccessViewModel.validateApplication(name, email, team, about, url)
 
-        //Missing Properties
-        assertFalse(urlSuccessViewModel.validateApplication("", email, team, about, url))
-        assertFalse(urlSuccessViewModel.validateApplication(name, "", team, about, url))
-        assertFalse(urlSuccessViewModel.validateApplication(name, email, "", about, url))
-        assertFalse(urlSuccessViewModel.validateApplication(name, email, team, "", url))
-        assertFalse(urlFailViewModel.validateApplication(name, email, team, about, ""))
+        assertTrue("Valid data no longer considered valid", validData)
+    }
 
-        //Incorrect Values
-        assertFalse(urlSuccessViewModel.validateApplication(name, "Not an email", team, about, url))
-        assertFalse(urlSuccessViewModel.validateApplication(name, email, "Not a team", about, url))
-        assertFalse(urlFailViewModel.validateApplication(name, email, team, about, "Not a url"))
+    @Test
+    fun test_validateApplication_withMissingData_assertFalse() {
+
+        val nameMissing = urlSuccessViewModel.validateApplication("", email, team, about, url)
+        val emailMissing = urlSuccessViewModel.validateApplication(name, "", team, about, url)
+        val teamMissing = urlSuccessViewModel.validateApplication(name, email, "", about, url)
+        val aboutMissing = urlSuccessViewModel.validateApplication(name, email, team, "", url)
+        val urlMissing = urlFailViewModel.validateApplication(name, email, team, about, "")
+
+        assertFalse("Name should not be empty", nameMissing)
+        assertFalse("Email should not be empty", emailMissing)
+        assertFalse("Team should not be empty", teamMissing)
+        assertFalse("About should not be empty", aboutMissing)
+        assertFalse("URLs should not be empty", urlMissing)
+    }
+
+    @Test
+    fun test_validationApplication_withIncorrectData_assertFalse() {
+
+        val emailInvalid = urlSuccessViewModel.validateApplication(name, "Not an email", team, about, url)
+        val teamInvalid = urlSuccessViewModel.validateApplication(name, email, "Not a team", about, url)
+        val urlInvalid = urlFailViewModel.validateApplication(name, email, team, about, "Not a url")
+
+        assertFalse("Email validation failing", emailInvalid)
+        assertFalse("Team validation failing", teamInvalid)
+        assertFalse("URL validation failing", urlInvalid)
     }
 
     @Test
     fun testJobApplication() {
 
-        val application = urlSuccessViewModel.createApplication(name, email, "$team, ${Team.ios.rawValue}", about, "$url\n$url")
+        val application =
+            urlSuccessViewModel.createApplication(name, email, "$team, ${Team.ios.rawValue}", about, "$url\n$url")
 
         //Property Mapping
         assertEquals(application.name, name)
@@ -89,8 +107,8 @@ class ViewModelTest {
         `when`(mockService.apply(application)).thenReturn(Single.just(application))
 
         MainViewModel(mockService) { true }
-                .performApplyRequest(application)
-                .test()
-                .assertResult(APIResult(application))
+            .performApplyRequest(application)
+            .test()
+            .assertResult(APIResult(application))
     }
 }
