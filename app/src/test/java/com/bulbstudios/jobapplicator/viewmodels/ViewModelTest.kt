@@ -106,9 +106,10 @@ class ViewModelTest {
     }
 
     @Test
-    fun testPerformRequest() {
+    fun test_performApplyRequest_withValidData_assertEqual() {
 
         val application = JobApplication(name, email, about, listOf(url), listOf(team))
+        val expectedResult = APIResult(application)
 
         val mockService = mock(JobApplicationService::class.java)
         `when`(mockService.apply(application)).thenReturn(Single.just(application))
@@ -116,6 +117,6 @@ class ViewModelTest {
         MainViewModel(mockService) { true }
                 .performApplyRequest(application)
                 .test()
-                .assertResult(APIResult(application))
+                .assertResult(expectedResult)
     }
 }
