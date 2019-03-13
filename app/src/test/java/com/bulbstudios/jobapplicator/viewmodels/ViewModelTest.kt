@@ -81,21 +81,28 @@ class ViewModelTest {
     }
 
     @Test
-    fun testJobApplication() {
+    fun test_createApplication_validatePropertyMapping_assertEqual() {
 
-        val application =
-            urlSuccessViewModel.createApplication(name, email, "$team, ${Team.ios.rawValue}", about, "$url\n$url")
+        val application = urlSuccessViewModel.createApplication(name, email, team, about, url)
 
-        //Property Mapping
-        assertEquals(application.name, name)
-        assertEquals(application.email, email)
-        assertEquals(application.about, about)
-        assertEquals(application.teams.first(), team)
-        assertEquals(application.urls.first(), url)
+        assertEquals("Name property not mapped correctly", application.name, name)
+        assertEquals("Email property not mapped correctly", application.email, email)
+        assertEquals("About property not mapped correctly", application.about, about)
+        assertEquals("Team property not mapped correctly", application.teams.first(), team)
+        assertEquals("URL property not mapped correctly", application.urls.first(), url)
+    }
 
-        //Array counts
-        assertEquals(application.teams.count(), 2)
-        assertEquals(application.urls.count(), 2)
+    @Test
+    fun test_createApplication_validateArrayPopulation_assertEqual() {
+
+        val application = urlSuccessViewModel.createApplication(name,
+                email,
+                "$team, ${Team.ios.rawValue}",
+                about,
+                "$url\n$url")
+
+        assertEquals("Unexpected team array size", application.teams.count(), 2)
+        assertEquals("Unexpected URL array size", application.urls.count(), 2)
     }
 
     @Test
@@ -107,8 +114,8 @@ class ViewModelTest {
         `when`(mockService.apply(application)).thenReturn(Single.just(application))
 
         MainViewModel(mockService) { true }
-            .performApplyRequest(application)
-            .test()
-            .assertResult(APIResult(application))
+                .performApplyRequest(application)
+                .test()
+                .assertResult(APIResult(application))
     }
 }
